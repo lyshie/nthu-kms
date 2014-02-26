@@ -25,15 +25,10 @@ Dim strOSVersion
 Dim strOSMajorVersion
 
 ' Global Configs
-Dim strTitle
-Dim strKMSServer
-Dim strKMSPort
-Dim strValidNet
-
-strTitle = "NTHU KMS Activation Script"
-strKMSServer = "kms.eden.nthu.edu.tw"
-strKMSPort = "1688"
-strValidNet = "140.114."
+Const strTitle = "NTHU KMS Activation Script"
+Const strKMSServer = "kms.eden.nthu.edu.tw"
+Const strKMSPort = "1688"
+Const strValidNet = "140.114."
 
 ' Get my real and external IP address
 Function getClientExtIP()
