@@ -25,10 +25,11 @@ Dim strOSVersion
 Dim strOSMajorVersion
 
 ' Global Configs
-Const strTitle = "NTHU KMS Activation Script"
+Const strTitle     = "NTHU KMS Activation Script"
 Const strKMSServer = "kms.eden.nthu.edu.tw"
-Const strKMSPort = "1688"
-Const strValidNet = "140.114."
+Const strKMSPort   = "1688"
+Const strValidNet  = "140.114."
+Const strURL       = "http://140.114.63.137/cgi-bin/myip.cgi"
 
 ' Get my real and external IP address
 Function getClientExtIP()
@@ -36,7 +37,7 @@ Function getClientExtIP()
 
 	Set objHTTP = CreateObject("MSXML2.XMLHTTP")
 
-	objHTTP.Open "GET", "http://140.114.63.137/cgi-bin/myip.cgi", False
+	objHTTP.Open "GET", strURL, False
 
 	' lyshie_20140226: **FIXME** to use non-blocking method or timeout
 	On Error Resume Next
@@ -292,7 +293,7 @@ Function Main()
 		End If
 	Else
 		dualEcho "您的 IP 位址不允許啟用。(" & clientIP & ")", _
-		"Your IP address is not allowed to activate. ("	& clientIP 	& ")"
+		"Your IP address is not allowed to activate. (" & clientIP & ")"
 
 		dualEcho "您應該使用 SSL-VPN 來登入「國立清華大學」校園。", _
 		"You should use SSL-VPN to login to NTHU campus."
