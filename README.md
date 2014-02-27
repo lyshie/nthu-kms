@@ -5,7 +5,7 @@ It is an all-in-one KMS activation script for NTHU users.
 
 Usage
 -----
-Directly download nthu-kms.vbs and double click to execute.
+Directly download **nthu-kms.vbs** and double click to execute.
 
 <https://raw.github.com/lyshie/nthu-kms/master/nthu-kms.vbs>
 
