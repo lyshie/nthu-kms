@@ -287,8 +287,8 @@ Function Main()
 				activateOffice(ospp)
 			End If
 		Else
-			dualEcho "您並未安裝 Microsoft Office。不需要啟用！", _
-			"You did not install Microsoft Office. Do not need to activate!"
+			dualEcho "您並未安裝較新版本的 Microsoft Office。不需要啟用！", _
+			"You did not install a newer version of Microsoft Office. Do not need to activate!"
 		End If
 	Else
 		dualEcho "您的 IP 位址不允許啟用。(" & clientIP & ")", _
