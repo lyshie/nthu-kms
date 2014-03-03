@@ -35,7 +35,9 @@ Const strURL       = "http://140.114.63.137/cgi-bin/myip.cgi"
 Function getClientExtIP()
 	Dim objHTTP ' object
 
-	Set objHTTP = CreateObject("MSXML2.XMLHTTP")
+	Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+
+	objHTTP.setTimeouts 1000 * 10, 1000 * 10, 1000 * 10, 1000 * 10
 
 	objHTTP.Open "GET", strURL, False
 
