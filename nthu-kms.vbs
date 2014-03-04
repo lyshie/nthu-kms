@@ -30,6 +30,7 @@ Const strKMSServer = "kms.eden.nthu.edu.tw"
 Const strKMSPort   = "1688"
 Const strValidNet  = "140.114."
 Const strURL       = "http://140.114.63.137/cgi-bin/myip.cgi"
+Const strURLInfo   = "http://net.nthu.edu.tw/2009/sslvpn:info"
 
 ' Get my real and external IP address
 Function getClientExtIP()
@@ -258,9 +259,88 @@ Function dualEcho(msg_zh, msg_en)
 	MsgBox msg_zh & vbCrLf & vbCrLf & msg_en, 64, strTitle
 End Function
 
+Function sortArray(ByRef arrShort)
+	Dim i, j, temp
+
+	Dim up, low
+
+	On Error Resume Next
+	up = UBound(arrShort)
+	low = LBound(arrShort)
+
+	For i = up - 1 to low Step -1
+		For j = low To i
+			If arrShort(j) < arrShort(j + 1) Then
+				temp = arrShort(j + 1)
+				arrShort(j + 1) = arrShort(j)
+				arrShort(j) = temp
+			End If
+		Next
+	Next
+
+	SortArray = arrShort
+End Function
+
+Function findNetworkConnect()
+	Dim objFSO      ' object
+	Dim objWSHShell ' object
+
+	Dim strParentPaths(1)
+	Dim strPath     ' string
+	Dim strFile     ' string
+
+	Dim objFolder   ' object
+	Dim objFile     ' object
+
+	Dim arrNC()     ' array
+	Dim arrSize
+
+	arrSize = 0
+
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+	Set objWSHShell = CreateObject("WScript.Shell")
+
+	strParentPaths(0) = objWSHShell.ExpandEnvironmentStrings("%ProgramFiles%") _
+	& "\Juniper Networks"
+	strParentPaths(1) = objWSHShell.ExpandEnvironmentStrings("%ProgramFiles(x86)%") _
+	& "\Juniper Networks"
+
+	For Each strPath In strParentPaths
+
+		If objFSO.FolderExists(strPath) Then
+			Set objFolder = objFSO.GetFolder(strPath)
+
+			For Each objFile in objFolder.SubFolders
+				strFile = strPath _
+				& "\" & objFile.Name _
+				& "\" & "dsNetworkConnect.exe"
+
+				If objFSO.FileExists(strFile) Then
+					ReDim Preserve arrNC(arrSize)
+					arrNC(arrSize) = strFile
+					arrSize = arrSize + 1
+				End If
+			Next
+
+			Set objFolder = Nothing
+		End If
+
+	Next
+
+	SortArray arrNC
+
+	For Each strFile in arrNC
+		' Get the latest version of NC
+		findNetworkConnect = strFile
+		Exit For
+	Next
+
+End Function
+
 Function Main()
 	Dim clientIP
 	Dim ospp
+	Dim strNC
 
 	' Display welcome message
 	dualEcho "如果過程中出現錯誤訊息，請記下該代碼，寄至 service@cc.nthu.edu.tw。", _
@@ -300,7 +380,14 @@ Function Main()
 		dualEcho "您應該使用 SSL-VPN 來登入「國立清華大學」校園。", _
 		"You should use SSL-VPN to login to NTHU campus."
 
-		openURL "http://net.nthu.edu.tw/2009/sslvpn:info"
+		openURL strURLInfo
+
+		' Auto launch Network Connect
+		strNC = findNetworkConnect
+
+		If strNC <> "" Then
+			runCommand strNC
+		End If
 	End If
 End Function
 
