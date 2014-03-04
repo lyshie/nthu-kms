@@ -274,28 +274,28 @@ Function sortArray(ByRef arrShort)
 	For i = up - 1 to low Step -1
 		For j = low To i
 			If arrShort(j) < arrShort(j + 1) Then
-				temp = arrShort(j + 1)
+				temp            = arrShort(j + 1)
 				arrShort(j + 1) = arrShort(j)
-				arrShort(j) = temp
+				arrShort(j)     = temp
 			End If
 		Next
 	Next
 
-	SortArray = arrShort
+	sortArray = arrShort
 End Function
 
 Function findNetworkConnect()
-	Dim objFSO      ' object
-	Dim objWSHShell ' object
+	Dim objFSO            ' object
+	Dim objWSHShell       ' object
 
-	Dim strParentPaths(1)
-	Dim strPath     ' string
-	Dim strFile     ' string
+	Dim strParentPaths(1) ' array
+	Dim strPath           ' string
+	Dim strFile           ' string
 
-	Dim objFolder   ' object
-	Dim objFile     ' object
+	Dim objFolder         ' object
+	Dim objFile           ' object
 
-	Dim arrNC()     ' array
+	Dim arrNC()           ' array
 	Dim arrSize
 
 	arrSize = 0
@@ -330,7 +330,7 @@ Function findNetworkConnect()
 
 	Next
 
-	SortArray arrNC
+	sortArray arrNC
 
 	For Each strFile in arrNC
 		' Get the latest version of NC
@@ -341,8 +341,8 @@ Function findNetworkConnect()
 End Function
 
 Function Main()
-	Dim clientIP
-	Dim ospp
+	Dim strClientIP
+	Dim strOSPP
 	Dim strNC
 
 	' Display welcome message
@@ -350,9 +350,9 @@ Function Main()
 	"If error code shows up during the processes, " _
 	& "please write it down and e-mail to " & strMail
 
-	clientIP = getClientExtIP()
+	strClientIP = getClientExtIP()
 
-	If (InStr(clientIP, strValidNet) > 0) Then
+	If (InStr(strClientIP, strValidNet) > 0) Then
 		' Windows
 		If strOSMajorVersion > 5 Then
 			If yesNo("您的作業系統是 " & strOSCaption & "。是否繼續啟用？", _
@@ -365,20 +365,20 @@ Function Main()
 		End If
 
 		' Office
-		ospp = getOSPP()
+		strOSPP = getOSPP()
 
-		If ospp <> "" Then
+		If strOSPP <> "" Then
 			If yesNO("是否繼續啟用 Microsoft Office？", _
 				"Continue to activate Microsoft Office?") Then
-				activateOffice(ospp)
+				activateOffice(strOSPP)
 			End If
 		Else
 			dualEcho "您並未安裝較新版本的 Microsoft Office。不需要啟用！", _
 			"You did not install a newer version of Microsoft Office. Do not need to activate!"
 		End If
 	Else
-		dualEcho "您的 IP 位址不允許啟用。(" & clientIP & ")", _
-		"Your IP address is not allowed to activate. (" & clientIP & ")"
+		dualEcho "您的 IP 位址不允許啟用。(" & strClientIP & ")", _
+		"Your IP address is not allowed to activate. (" & strClientIP & ")"
 
 		dualEcho "您應該使用 SSL-VPN 來登入" & strCampusZH & "。", _
 		"You should use SSL-VPN to login to " & strCampusEN & "."
@@ -386,7 +386,7 @@ Function Main()
 		openURL strURLInfo
 
 		' Auto launch Network Connect
-		strNC = findNetworkConnect
+		strNC = findNetworkConnect()
 
 		If strNC <> "" Then
 			runCommand strNC
