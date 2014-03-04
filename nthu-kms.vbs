@@ -31,6 +31,9 @@ Const strKMSPort   = "1688"
 Const strValidNet  = "140.114."
 Const strURL       = "http://140.114.63.137/cgi-bin/myip.cgi"
 Const strURLInfo   = "http://net.nthu.edu.tw/2009/sslvpn:info"
+Const strMail      = "service@cc.nthu.edu.tw"
+Const strCampusZH  = "「國立清華大學」校園"
+Const strCampusEN  = "NTHU campus"
 
 ' Get my real and external IP address
 Function getClientExtIP()
@@ -343,9 +346,9 @@ Function Main()
 	Dim strNC
 
 	' Display welcome message
-	dualEcho "如果過程中出現錯誤訊息，請記下該代碼，寄至 service@cc.nthu.edu.tw。", _
+	dualEcho "如果過程中出現錯誤訊息，請記下該代碼，寄至 " & strMail & "。", _
 	"If error code shows up during the processes, " _
-	& "please write it down and e-mail to service@cc.nthu.edu.tw"
+	& "please write it down and e-mail to " & strMail
 
 	clientIP = getClientExtIP()
 
@@ -377,8 +380,8 @@ Function Main()
 		dualEcho "您的 IP 位址不允許啟用。(" & clientIP & ")", _
 		"Your IP address is not allowed to activate. (" & clientIP & ")"
 
-		dualEcho "您應該使用 SSL-VPN 來登入「國立清華大學」校園。", _
-		"You should use SSL-VPN to login to NTHU campus."
+		dualEcho "您應該使用 SSL-VPN 來登入" & strCampusZH & "。", _
+		"You should use SSL-VPN to login to " & strCampusEN & "."
 
 		openURL strURLInfo
 
